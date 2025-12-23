@@ -1,24 +1,24 @@
 import { motion } from "framer-motion";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight, Bot } from "lucide-react";
 import { Button } from "./ui/button";
 import heroImage from "@/assets/hero-wine.jpg";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Image with Light Overlay */}
       <div className="absolute inset-0">
         <img
           src={heroImage}
-          alt="Luxury wine collection"
+          alt="Automated wine store with hologram sommelier"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-1/4 left-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-gold/10 rounded-full blur-3xl" />
 
       {/* Content */}
@@ -29,10 +29,10 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-gold/30 rounded-full px-4 py-2 mb-8"
+            className="inline-flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2 mb-8 shadow-card"
           >
-            <Sparkles className="w-4 h-4 text-gold" />
-            <span className="text-sm font-body text-gold-light">AI-Powered Wine Selection</span>
+            <Bot className="w-4 h-4 text-primary" />
+            <span className="text-sm font-body text-primary font-medium">AI Hologram Sommelier</span>
           </motion.div>
 
           {/* Main Headline */}
@@ -42,9 +42,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold leading-tight mb-6"
           >
-            <span className="text-foreground">Discover Your</span>
+            <span className="text-foreground">The Future of</span>
             <br />
-            <span className="text-gradient-gold italic">Perfect Wine</span>
+            <span className="text-gradient-wine italic">Wine Selection</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -54,8 +54,9 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="font-body text-lg md:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed"
           >
-            Experience the future of wine selection. Our AI sommelier learns your palate 
-            and curates exceptional wines from the world's finest vineyards, delivered to your door.
+            Walk into our fully automated store, meet your personal AI hologram sommelier, 
+            and discover your perfect wine. No queues, no guesswork — just intelligent, 
+            personalized wine curation.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -66,11 +67,11 @@ const Hero = () => {
             className="flex flex-col sm:flex-row gap-4"
           >
             <Button variant="gold" size="xl" className="group">
-              Start Your Journey
+              Find a Store
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button variant="outline_wine" size="xl">
-              Meet Our AI Sommelier
+              Meet the AI Sommelier
             </Button>
           </motion.div>
 
@@ -79,15 +80,15 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-wrap gap-8 md:gap-12 mt-16 pt-8 border-t border-border/30"
+            className="flex flex-wrap gap-8 md:gap-12 mt-16 pt-8 border-t border-border"
           >
             {[
-              { value: "2,500+", label: "Curated Wines" },
+              { value: "24/7", label: "Stores Open" },
               { value: "98%", label: "Match Accuracy" },
-              { value: "50k+", label: "Happy Members" },
+              { value: "30s", label: "Avg. Selection Time" },
             ].map((stat) => (
               <div key={stat.label}>
-                <div className="font-display text-3xl md:text-4xl font-semibold text-gold">
+                <div className="font-display text-3xl md:text-4xl font-semibold text-primary">
                   {stat.value}
                 </div>
                 <div className="font-body text-sm text-muted-foreground mt-1">
@@ -111,7 +112,7 @@ const Hero = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="w-6 h-10 border-2 border-muted-foreground/50 rounded-full flex items-start justify-center p-2"
         >
-          <div className="w-1.5 h-1.5 bg-gold rounded-full" />
+          <div className="w-1.5 h-1.5 bg-primary rounded-full" />
         </motion.div>
       </motion.div>
     </section>

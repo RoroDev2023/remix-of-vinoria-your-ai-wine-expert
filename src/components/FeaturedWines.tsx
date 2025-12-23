@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Star, ShoppingCart } from "lucide-react";
+import { Star, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import wineBottle1 from "@/assets/wine-bottle-1.jpg";
 import wineBottle2 from "@/assets/wine-bottle-2.jpg";
@@ -40,7 +40,7 @@ const wines = [
 
 const FeaturedWines = () => {
   return (
-    <section id="collection" className="py-24 bg-background relative overflow-hidden">
+    <section id="collection" className="py-24 bg-card relative overflow-hidden">
       {/* Background Decoration */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
@@ -54,15 +54,15 @@ const FeaturedWines = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="font-body text-sm tracking-widest text-gold uppercase">
-            Curated Selection
+          <span className="font-body text-sm tracking-widest text-primary uppercase">
+            In Our Stores
           </span>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold mt-4 text-foreground">
-            Featured <span className="italic text-gradient-gold">Wines</span>
+            Featured <span className="italic text-gradient-wine">Wines</span>
           </h2>
           <p className="font-body text-muted-foreground mt-4 max-w-2xl mx-auto">
-            Hand-picked by our AI sommelier based on exceptional quality, rare finds, 
-            and perfect seasonal pairings.
+            A glimpse of the exceptional wines available in our automated stores — 
+            curated by our AI sommelier based on quality, rarity, and seasonal pairings.
           </p>
         </motion.div>
 
@@ -77,36 +77,28 @@ const FeaturedWines = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group"
             >
-              <div className="bg-card rounded-2xl overflow-hidden border border-border hover:border-gold/30 transition-all duration-500 shadow-card hover:shadow-2xl hover:-translate-y-2">
+              <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all duration-500 shadow-card hover:shadow-xl hover:-translate-y-2">
                 {/* Image Container */}
-                <div className="relative h-80 bg-gradient-to-b from-card to-muted overflow-hidden">
+                <div className="relative h-80 bg-gradient-to-b from-muted to-card overflow-hidden">
                   <img
                     src={wine.image}
                     alt={wine.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   {/* Type Badge */}
-                  <div className="absolute top-4 left-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
+                  <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full border border-border">
                     <span className="font-body text-xs font-medium text-foreground">
                       {wine.type}
                     </span>
                   </div>
-                  {/* Quick Add Button */}
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileHover={{ scale: 1.1 }}
-                    className="absolute top-4 right-4 bg-gold text-background p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                  </motion.button>
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
                   {/* Rating */}
                   <div className="flex items-center gap-1 mb-3">
-                    <Star className="w-4 h-4 fill-gold text-gold" />
-                    <span className="font-body text-sm text-gold">{wine.rating}</span>
+                    <Star className="w-4 h-4 fill-primary text-primary" />
+                    <span className="font-body text-sm text-primary font-medium">{wine.rating}</span>
                   </div>
 
                   {/* Wine Info */}
@@ -123,7 +115,7 @@ const FeaturedWines = () => {
                       ${wine.price}
                     </div>
                     <Button variant="outline_wine" size="sm">
-                      Add to Cellar
+                      Find in Store
                     </Button>
                   </div>
                 </div>
@@ -132,7 +124,7 @@ const FeaturedWines = () => {
           ))}
         </div>
 
-        {/* View All Button */}
+        {/* Store Finder CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -140,8 +132,9 @@ const FeaturedWines = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <Button variant="gold" size="lg">
-            Explore Full Collection
+          <Button variant="gold" size="lg" className="group">
+            <MapPin className="w-5 h-5" />
+            Find a Vinoria Store
           </Button>
         </motion.div>
       </div>

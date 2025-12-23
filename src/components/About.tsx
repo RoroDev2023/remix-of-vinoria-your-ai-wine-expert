@@ -1,32 +1,32 @@
 import { motion } from "framer-motion";
-import { Award, Leaf, Globe, Heart } from "lucide-react";
+import { Bot, Lightbulb, Clock, ShieldCheck } from "lucide-react";
 
 const values = [
   {
-    icon: Award,
-    title: "Excellence",
-    description: "We partner only with the world's most prestigious vineyards and winemakers.",
+    icon: Bot,
+    title: "AI-First",
+    description: "Cutting-edge hologram technology for a truly personalized experience.",
   },
   {
-    icon: Leaf,
-    title: "Sustainability",
-    description: "Committed to eco-friendly practices and supporting sustainable viticulture.",
+    icon: Lightbulb,
+    title: "Innovation",
+    description: "Pioneering the future of retail with fully automated wine stores.",
   },
   {
-    icon: Globe,
-    title: "Global Reach",
-    description: "Sourcing exceptional wines from 50+ wine regions across the globe.",
+    icon: Clock,
+    title: "Convenience",
+    description: "Open 24/7 with instant service — no waiting, no queues.",
   },
   {
-    icon: Heart,
-    title: "Passion",
-    description: "Every bottle is selected with care and expertise by our team and AI.",
+    icon: ShieldCheck,
+    title: "Trust",
+    description: "Expert-level recommendations powered by centuries of wine knowledge.",
   },
 ];
 
 const About = () => {
   return (
-    <section id="about" className="py-24 bg-card relative overflow-hidden">
+    <section id="about" className="py-24 bg-background relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent" />
       
@@ -39,39 +39,40 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <span className="font-body text-sm tracking-widest text-gold uppercase">
-              Our Story
+            <span className="font-body text-sm tracking-widest text-primary uppercase">
+              Our Vision
             </span>
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground mt-4 mb-6">
-              Where Tradition <br />
-              <span className="italic text-gradient-gold">Meets Innovation</span>
+              Redefining <br />
+              <span className="italic text-gradient-wine">Wine Retail</span>
             </h2>
             <div className="space-y-4 font-body text-muted-foreground leading-relaxed">
               <p>
-                Founded by wine enthusiasts and technologists, Vinoria was born from a simple 
-                vision: to make exceptional wine accessible to everyone, guided by the 
-                intelligence of AI.
+                Vinoria was born from a bold vision: what if buying wine was as intelligent 
+                as the sommeliers at the world's finest restaurants, but available to 
+                everyone, anytime, anywhere?
               </p>
               <p>
-                We believe that the perfect wine shouldn't be discovered by chance. Our AI 
-                sommelier learns from centuries of wine wisdom and your personal preferences 
-                to create a truly personalized experience.
+                We combined advanced AI with holographic display technology to create 
+                a personal sommelier that lives in our automated stores. Walk in, 
+                have a conversation, and walk out with the perfect bottle — all in minutes.
               </p>
               <p>
-                From the rolling hills of Tuscany to the sun-kissed vineyards of Napa Valley, 
-                we bring the world's finest wines directly to your table, curated just for you.
+                Our AI learns from millions of tasting notes, food pairings, and customer 
+                preferences to deliver recommendations that rival the best human sommeliers. 
+                This is the future of wine shopping.
               </p>
             </div>
 
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-border">
               {[
-                { value: "10+", label: "Years Experience" },
-                { value: "50+", label: "Wine Regions" },
-                { value: "100k+", label: "Bottles Delivered" },
+                { value: "50+", label: "Store Locations" },
+                { value: "1M+", label: "Wines Selected" },
+                { value: "24/7", label: "Always Open" },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <div className="font-display text-2xl font-semibold text-gold">
+                  <div className="font-display text-2xl font-semibold text-primary">
                     {stat.value}
                   </div>
                   <div className="font-body text-xs text-muted-foreground mt-1">
@@ -97,7 +98,7 @@ const About = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-background border border-border rounded-2xl p-6 hover:border-gold/30 transition-all duration-300"
+                className="bg-card border border-border rounded-2xl p-6 hover:border-primary/30 transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                   <value.icon className="w-6 h-6 text-primary" />
