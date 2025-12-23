@@ -1,27 +1,27 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Wine, Sparkles } from "lucide-react";
+import { Menu, X, Wine, Bot } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { name: "Collection", href: "#collection" },
-    { name: "AI Sommelier", href: "#ai-sommelier" },
-    { name: "Our Story", href: "#about" },
+    { name: "How It Works", href: "#ai-sommelier" },
+    { name: "Our Vision", href: "#about" },
+    { name: "Locations", href: "#locations" },
     { name: "Contact", href: "#contact" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
             <div className="relative">
-              <Wine className="w-8 h-8 text-gold transition-transform duration-300 group-hover:scale-110" />
-              <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-gold-light animate-pulse" />
+              <Wine className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
+              <Bot className="absolute -top-1 -right-1 w-3 h-3 text-primary animate-pulse" />
             </div>
             <span className="font-display text-2xl font-semibold text-foreground tracking-wide">
               Vinoria
@@ -37,7 +37,7 @@ const Navbar = () => {
                 className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </div>
@@ -45,7 +45,7 @@ const Navbar = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button variant="gold" size="default">
-              Explore Wines
+              Find a Store
             </Button>
           </div>
 
@@ -84,7 +84,7 @@ const Navbar = () => {
                 </motion.a>
               ))}
               <Button variant="gold" size="lg" className="mt-4">
-                Explore Wines
+                Find a Store
               </Button>
             </div>
           </motion.div>
