@@ -43,7 +43,7 @@ const Team = () => {
       location: "Switzerland",
       description: "Financial strategist with proven track record in building and scaling successful enterprises. Zohrab ensures Vinoria's financial health and sustainable growth.",
       highlights: [
-        "CEO of AZZA in Baku, Azerbaijan",
+        "CEO of AZZA in Baku",
         "50M+ AZN Annual Turnover",
         "Financial Strategy & Planning",
         "Investment Management"
