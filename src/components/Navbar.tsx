@@ -2,15 +2,18 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Wine, Bot } from "lucide-react";
 import { Button } from "./ui/button";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   const navItems = [
-    { name: "How It Works", href: "#ai-sommelier" },
-    { name: "Our Vision", href: "#about" },
-    { name: "Locations", href: "#locations" },
-    { name: "Contact", href: "#contact" },
+    { name: "How It Works", href: isHomePage ? "#ai-sommelier" : "/#ai-sommelier" },
+    { name: "Our Vision", href: isHomePage ? "#about" : "/#about" },
+    { name: "Team", href: "/team", isLink: true },
+    { name: "Contact", href: isHomePage ? "#contact" : "/#contact" },
   ];
 
   return (
@@ -18,7 +21,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group">
             <div className="relative">
               <Wine className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
               <Bot className="absolute -top-1 -right-1 w-3 h-3 text-primary animate-pulse" />
@@ -26,20 +29,31 @@ const Navbar = () => {
             <span className="font-display text-2xl font-semibold text-foreground tracking-wide">
               Vinoria
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+            {navItems.map((item) => 
+              item.isLink ? (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+              ) : (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </a>
+              )
+            )}
           </div>
 
           {/* CTA Button */}
@@ -70,19 +84,36 @@ const Navbar = () => {
             className="md:hidden bg-card border-t border-border"
           >
             <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
-              {navItems.map((item, index) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  onClick={() => setIsOpen(false)}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-lg py-2"
-                >
-                  {item.name}
-                </motion.a>
-              ))}
+              {navItems.map((item, index) => 
+                item.isLink ? (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-lg py-2 block"
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.a
+                    key={item.name}
+                    href={item.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    onClick={() => setIsOpen(false)}
+                    className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-lg py-2"
+                  >
+                    {item.name}
+                  </motion.a>
+                )
+              )}
               <Button variant="gold" size="lg" className="mt-4">
                 Find a Store
               </Button>
