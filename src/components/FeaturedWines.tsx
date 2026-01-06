@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Star, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Star, MapPin, Eye, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import wineBottle1 from "@/assets/wine-bottle-1.jpg";
 import wineBottle2 from "@/assets/wine-bottle-2.jpg";
@@ -39,11 +40,25 @@ const wines = [
 ];
 
 const FeaturedWines = () => {
+  const [hoveredWine, setHoveredWine] = useState<number | null>(null);
+
   return (
     <section id="collection" className="py-24 bg-card relative overflow-hidden">
       {/* Background Decoration */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gold/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="wines-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+              <circle cx="40" cy="40" r="1" fill="hsl(var(--primary))" opacity="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#wines-grid)" />
+        </svg>
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
@@ -54,10 +69,14 @@ const FeaturedWines = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="font-body text-sm tracking-widest text-primary uppercase">
+          <motion.span 
+            className="inline-flex items-center gap-2 font-body text-sm tracking-widest text-primary uppercase bg-primary/10 px-4 py-2 rounded-full border border-primary/20"
+            whileHover={{ scale: 1.05 }}
+          >
+            <Sparkles className="w-4 h-4" />
             In Our Stores
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold mt-4 text-foreground">
+          </motion.span>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold mt-6 text-foreground">
             Featured <span className="italic text-gradient-wine">Wines</span>
           </h2>
           <p className="font-body text-muted-foreground mt-4 max-w-2xl mx-auto">
@@ -76,33 +95,82 @@ const FeaturedWines = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group"
+              onMouseEnter={() => setHoveredWine(wine.id)}
+              onMouseLeave={() => setHoveredWine(null)}
             >
-              <div className="bg-background rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all duration-500 shadow-card hover:shadow-xl hover:-translate-y-2">
+              <motion.div 
+                className="bg-background rounded-2xl overflow-hidden border border-border transition-all duration-500 shadow-card relative"
+                whileHover={{ y: -8, boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.15)" }}
+              >
+                {/* Animated border glow */}
+                <motion.div 
+                  className="absolute -inset-0.5 bg-gradient-to-r from-primary via-gold to-primary rounded-2xl opacity-0 group-hover:opacity-50 blur-sm transition-opacity duration-500 -z-10"
+                  animate={hoveredWine === wine.id ? { 
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] 
+                  } : {}}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  style={{ backgroundSize: "200% 200%" }}
+                />
+
                 {/* Image Container */}
                 <div className="relative h-80 bg-gradient-to-b from-muted to-card overflow-hidden">
-                  <img
+                  <motion.img
                     src={wine.image}
                     alt={wine.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.6 }}
                   />
+                  
+                  {/* Tech overlay on hover */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  
+                  {/* Quick view button */}
+                  <motion.div 
+                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={{ scale: 0.8 }}
+                    whileHover={{ scale: 1 }}
+                  >
+                    <motion.button
+                      className="w-12 h-12 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center border border-primary/30 text-primary"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Eye className="w-5 h-5" />
+                    </motion.button>
+                  </motion.div>
+
                   {/* Type Badge */}
-                  <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full border border-border">
+                  <motion.div 
+                    className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-primary/20"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     <span className="font-body text-xs font-medium text-foreground">
                       {wine.type}
                     </span>
-                  </div>
+                  </motion.div>
+
+                  {/* Corner accents */}
+                  <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-primary/30 rounded-tr-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-primary/30 rounded-bl-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
                 {/* Content */}
                 <div className="p-6">
                   {/* Rating */}
-                  <div className="flex items-center gap-1 mb-3">
+                  <motion.div 
+                    className="flex items-center gap-1 mb-3"
+                    whileHover={{ x: 4 }}
+                  >
                     <Star className="w-4 h-4 fill-primary text-primary" />
                     <span className="font-body text-sm text-primary font-medium">{wine.rating}</span>
-                  </div>
+                    <span className="text-muted-foreground text-xs ml-1">/ 5.0</span>
+                  </motion.div>
 
                   {/* Wine Info */}
-                  <h3 className="font-display text-xl font-semibold text-foreground mb-1">
+                  <h3 className="font-display text-xl font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                     {wine.name}
                   </h3>
                   <p className="font-body text-sm text-muted-foreground mb-4">
@@ -114,12 +182,14 @@ const FeaturedWines = () => {
                     <div className="font-display text-2xl font-semibold text-foreground">
                       ${wine.price}
                     </div>
-                    <Button variant="outline_wine" size="sm">
-                      Find in Store
-                    </Button>
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Button variant="outline_wine" size="sm" className="group/btn">
+                        <span className="group-hover/btn:text-primary transition-colors">Find in Store</span>
+                      </Button>
+                    </motion.div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>
@@ -130,12 +200,22 @@ const FeaturedWines = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+          className="text-center mt-16"
         >
-          <Button variant="gold" size="lg" className="group">
-            <MapPin className="w-5 h-5" />
-            Find a Vinoria Store
-          </Button>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+            <Button variant="gold" size="lg" className="group relative overflow-hidden">
+              <span className="relative z-10 flex items-center gap-2">
+                <MapPin className="w-5 h-5" />
+                Find a Vinoria Store
+              </span>
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-gold via-primary to-gold opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ backgroundSize: "200% 100%" }}
+                animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
+                transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+              />
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
     </section>
