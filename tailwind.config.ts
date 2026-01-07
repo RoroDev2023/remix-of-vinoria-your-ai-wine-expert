@@ -67,6 +67,10 @@ export default {
           light: "hsl(var(--gold-light))",
         },
         cream: "hsl(var(--cream))",
+        tech: {
+          DEFAULT: "hsl(var(--tech-accent))",
+          glow: "hsl(var(--tech-glow))",
+        },
       },
       fontFamily: {
         display: ['Playfair Display', 'serif'],
