@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Wine, Bot } from "lucide-react";
+import { Menu, X, Wine, Bot, Cpu } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -18,14 +19,32 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+      {/* Subtle tech accent line */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+        style={{ width: "100%" }}
+      />
+      
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
+            <motion.div 
+              className="relative"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400 }}
+            >
               <Wine className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -inset-1 border border-dashed border-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+              />
               <Bot className="absolute -top-1 -right-1 w-3 h-3 text-primary animate-pulse" />
-            </div>
+            </motion.div>
             <span className="font-display text-2xl font-semibold text-foreground tracking-wide">
               Vinoria
             </span>
@@ -38,19 +57,33 @@ const Navbar = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group"
+                  onMouseEnter={() => setHoveredItem(item.name)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group py-2"
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  <motion.span 
+                    className="absolute -bottom-1 left-0 h-0.5 bg-primary rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: hoveredItem === item.name ? "100%" : 0 }}
+                    transition={{ duration: 0.2 }}
+                  />
                 </Link>
               ) : (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group"
+                  onMouseEnter={() => setHoveredItem(item.name)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 font-body text-sm tracking-wide relative group py-2"
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  <motion.span 
+                    className="absolute -bottom-1 left-0 h-0.5 bg-primary rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: hoveredItem === item.name ? "100%" : 0 }}
+                    transition={{ duration: 0.2 }}
+                  />
                 </a>
               )
             )}
@@ -58,7 +91,13 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="gold" size="default">
+            <Button variant="gold" size="default" className="group relative overflow-hidden">
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
+              />
+              <Cpu className="w-4 h-4 mr-1 group-hover:rotate-90 transition-transform duration-300" />
               Find a Store
             </Button>
           </div>
