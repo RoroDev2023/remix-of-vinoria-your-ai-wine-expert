@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
 import HologramSection from "@/components/HologramSection";
 import FeaturedWines from "@/components/FeaturedWines";
 import AISommelier from "@/components/AISommelier";
@@ -10,7 +9,6 @@ const Index = () => {
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
-      <Hero />
       <HologramSection />
       <FeaturedWines />
       <AISommelier />
