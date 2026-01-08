@@ -1,211 +1,223 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo } from "react";
-import * as THREE from "three";
+import { useRef, useMemo, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-// Hologram human figure
-const HologramFigure = () => {
-  const groupRef = useRef<THREE.Group>(null);
-  const scanLineRef = useRef<THREE.Mesh>(null);
-
-  // Shader material for hologram effect
-  const hologramMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      transparent: true,
-      side: THREE.DoubleSide,
-      uniforms: {
-        time: { value: 0 },
-        color: { value: new THREE.Color("#22d3ee") },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        void main() {
-          vUv = uv;
-          vPosition = position;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float time;
-        uniform vec3 color;
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        
-        void main() {
-          float scanLine = sin(vPosition.y * 30.0 + time * 2.0) * 0.5 + 0.5;
-          float flicker = sin(time * 10.0) * 0.05 + 0.95;
-          float edge = pow(1.0 - abs(vUv.x - 0.5) * 2.0, 0.5);
-          float alpha = (0.3 + scanLine * 0.2) * edge * flicker;
-          
-          vec3 finalColor = color + vec3(0.1, 0.2, 0.3) * scanLine;
-          gl_FragColor = vec4(finalColor, alpha);
-        }
-      `,
-    });
-  }, []);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-    }
-    hologramMaterial.uniforms.time.value = state.clock.elapsedTime;
-    
-    if (scanLineRef.current) {
-      scanLineRef.current.position.y = Math.sin(state.clock.elapsedTime) * 1.5;
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0, -0.5, 0]}>
-      {/* Head */}
-      <mesh position={[0, 2.2, 0]} material={hologramMaterial}>
-        <sphereGeometry args={[0.35, 32, 32]} />
-      </mesh>
-      
-      {/* Neck */}
-      <mesh position={[0, 1.8, 0]} material={hologramMaterial}>
-        <cylinderGeometry args={[0.1, 0.12, 0.2, 16]} />
-      </mesh>
-      
-      {/* Torso */}
-      <mesh position={[0, 1.2, 0]} material={hologramMaterial}>
-        <cylinderGeometry args={[0.25, 0.4, 1.0, 16]} />
-      </mesh>
-      
-      {/* Shoulders */}
-      <mesh position={[0, 1.6, 0]} material={hologramMaterial}>
-        <boxGeometry args={[0.9, 0.15, 0.25]} />
-      </mesh>
-      
-      {/* Left Arm */}
-      <mesh position={[-0.55, 1.1, 0]} rotation={[0, 0, 0.2]} material={hologramMaterial}>
-        <cylinderGeometry args={[0.08, 0.06, 0.8, 12]} />
-      </mesh>
-      
-      {/* Right Arm - pointing/gesturing */}
-      <mesh position={[0.5, 1.2, 0.3]} rotation={[0.5, 0, -0.3]} material={hologramMaterial}>
-        <cylinderGeometry args={[0.08, 0.06, 0.7, 12]} />
-      </mesh>
-      
-      {/* Lower body fade */}
-      <mesh position={[0, 0.4, 0]} material={hologramMaterial}>
-        <cylinderGeometry args={[0.35, 0.15, 1.2, 16]} />
-      </mesh>
-
-      {/* Scanning line */}
-      <mesh ref={scanLineRef} position={[0, 1, 0]}>
-        <planeGeometry args={[1.5, 0.02]} />
-        <meshBasicMaterial color="#22d3ee" transparent opacity={0.8} />
-      </mesh>
-      
-      {/* Data rings */}
-      <DataRing radius={0.6} y={2.5} speed={1} />
-      <DataRing radius={0.8} y={1.8} speed={-0.7} />
-      <DataRing radius={0.5} y={1.0} speed={0.5} />
-    </group>
-  );
-};
-
-// Animated data ring
-const DataRing = ({ radius, y, speed }: { radius: number; y: number; speed: number }) => {
-  const ringRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (ringRef.current) {
-      ringRef.current.rotation.y = state.clock.elapsedTime * speed;
-      ringRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-    }
-  });
-
-  return (
-    <mesh ref={ringRef} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[radius, 0.01, 8, 64]} />
-      <meshBasicMaterial color="#a855f7" transparent opacity={0.6} />
-    </mesh>
-  );
-};
-
-// Floating particles
-const Particles = () => {
-  const particlesRef = useRef<THREE.Points>(null);
-  
-  const particleCount = 100;
-  const positions = useMemo(() => {
-    const pos = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 6;
-      pos[i * 3 + 1] = Math.random() * 5 - 1;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 4;
-    }
-    return pos;
-  }, []);
-
-  useFrame((state) => {
-    if (particlesRef.current) {
-      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-      const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
-      for (let i = 0; i < particleCount; i++) {
-        positions[i * 3 + 1] += Math.sin(state.clock.elapsedTime + i) * 0.002;
-      }
-      particlesRef.current.geometry.attributes.position.needsUpdate = true;
-    }
-  });
-
-  return (
-    <points ref={particlesRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={particleCount}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial size={0.03} color="#22d3ee" transparent opacity={0.6} sizeAttenuation />
-    </points>
-  );
-};
-
-// Base platform glow
-const Platform = () => {
-  const ringRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (ringRef.current) {
-      ringRef.current.rotation.z = state.clock.elapsedTime * 0.2;
-    }
-  });
-
-  return (
-    <group position={[0, -1.2, 0]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0.8, 1.2, 64]} />
-        <meshBasicMaterial color="#7c3aed" transparent opacity={0.3} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.1, 1.15, 64]} />
-        <meshBasicMaterial color="#22d3ee" transparent opacity={0.5} side={THREE.DoubleSide} />
-      </mesh>
-    </group>
-  );
-};
-
+// Pure CSS/Canvas based hologram that avoids three.js React context issues
 const Hologram3D = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(t => t + 0.05);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // Clear
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw hologram figure
+    const centerX = width / 2;
+    const baseY = height * 0.85;
+    
+    // Hologram color with flicker
+    const flicker = 0.8 + Math.sin(time * 10) * 0.1;
+    const alpha = 0.6 * flicker;
+    
+    // Glow effect
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = `rgba(34, 211, 238, ${alpha})`;
+    
+    // Head
+    ctx.beginPath();
+    ctx.arc(centerX, baseY - 280, 35, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(34, 211, 238, ${alpha * 0.7})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Eyes
+    ctx.beginPath();
+    ctx.arc(centerX - 12, baseY - 285, 4, 0, Math.PI * 2);
+    ctx.arc(centerX + 12, baseY - 285, 4, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200, 255, 255, ${alpha})`;
+    ctx.fill();
+    
+    // Neck
+    ctx.beginPath();
+    ctx.moveTo(centerX - 10, baseY - 245);
+    ctx.lineTo(centerX + 10, baseY - 245);
+    ctx.lineTo(centerX + 12, baseY - 225);
+    ctx.lineTo(centerX - 12, baseY - 225);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(34, 211, 238, ${alpha * 0.5})`;
+    ctx.fill();
+    
+    // Shoulders
+    ctx.beginPath();
+    ctx.moveTo(centerX - 70, baseY - 210);
+    ctx.lineTo(centerX + 70, baseY - 210);
+    ctx.lineTo(centerX + 60, baseY - 195);
+    ctx.lineTo(centerX - 60, baseY - 195);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(34, 211, 238, ${alpha * 0.6})`;
+    ctx.fill();
+    
+    // Torso
+    ctx.beginPath();
+    ctx.moveTo(centerX - 50, baseY - 195);
+    ctx.lineTo(centerX + 50, baseY - 195);
+    ctx.lineTo(centerX + 40, baseY - 80);
+    ctx.lineTo(centerX - 40, baseY - 80);
+    ctx.closePath();
+    const torsoGradient = ctx.createLinearGradient(centerX, baseY - 195, centerX, baseY - 80);
+    torsoGradient.addColorStop(0, `rgba(34, 211, 238, ${alpha * 0.5})`);
+    torsoGradient.addColorStop(1, `rgba(34, 211, 238, ${alpha * 0.1})`);
+    ctx.fillStyle = torsoGradient;
+    ctx.fill();
+    
+    // Lower body fade
+    ctx.beginPath();
+    ctx.moveTo(centerX - 40, baseY - 80);
+    ctx.lineTo(centerX + 40, baseY - 80);
+    ctx.lineTo(centerX + 25, baseY);
+    ctx.lineTo(centerX - 25, baseY);
+    ctx.closePath();
+    const lowerGradient = ctx.createLinearGradient(centerX, baseY - 80, centerX, baseY);
+    lowerGradient.addColorStop(0, `rgba(34, 211, 238, ${alpha * 0.3})`);
+    lowerGradient.addColorStop(1, `rgba(34, 211, 238, 0)`);
+    ctx.fillStyle = lowerGradient;
+    ctx.fill();
+    
+    // Arms
+    ctx.beginPath();
+    ctx.moveTo(centerX - 60, baseY - 200);
+    ctx.lineTo(centerX - 75, baseY - 130);
+    ctx.lineTo(centerX - 65, baseY - 125);
+    ctx.lineTo(centerX - 50, baseY - 190);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(34, 211, 238, ${alpha * 0.4})`;
+    ctx.fill();
+    
+    ctx.beginPath();
+    ctx.moveTo(centerX + 60, baseY - 200);
+    ctx.lineTo(centerX + 80, baseY - 150);
+    ctx.lineTo(centerX + 70, baseY - 145);
+    ctx.lineTo(centerX + 50, baseY - 190);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Scan lines
+    ctx.shadowBlur = 0;
+    for (let i = 0; i < 15; i++) {
+      const y = baseY - 280 + i * 20;
+      const scanAlpha = 0.1 + Math.sin(time * 2 + i * 0.5) * 0.1;
+      ctx.beginPath();
+      ctx.moveTo(centerX - 80, y);
+      ctx.lineTo(centerX + 80, y);
+      ctx.strokeStyle = `rgba(34, 211, 238, ${scanAlpha})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    
+    // Moving scan line
+    const scanY = baseY - 280 + ((time * 50) % 300);
+    ctx.beginPath();
+    ctx.moveTo(centerX - 80, scanY);
+    ctx.lineTo(centerX + 80, scanY);
+    ctx.strokeStyle = `rgba(34, 211, 238, 0.8)`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // Data rings
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = 'rgba(168, 85, 247, 0.5)';
+    
+    const rings = [
+      { y: baseY - 300, radius: 50, speed: 1 },
+      { y: baseY - 200, radius: 65, speed: -0.7 },
+      { y: baseY - 120, radius: 45, speed: 0.5 },
+    ];
+    
+    rings.forEach(ring => {
+      ctx.beginPath();
+      ctx.ellipse(centerX, ring.y, ring.radius, 10, time * ring.speed, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(168, 85, 247, 0.5)`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+    
+    // Base platform
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = 'rgba(34, 211, 238, 0.5)';
+    ctx.beginPath();
+    ctx.ellipse(centerX, baseY + 10, 80, 15, 0, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(34, 211, 238, 0.8)`;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    
+    // Outer ring
+    ctx.beginPath();
+    ctx.ellipse(centerX, baseY + 10, 100, 20, 0, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(124, 58, 237, 0.5)`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+  }, [time]);
+
   return (
-    <div className="w-full h-full">
-      <Canvas
-        camera={{ position: [0, 1, 4], fov: 50 }}
-        gl={{ antialias: true, alpha: true }}
-        style={{ background: 'transparent' }}
-      >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={0.5} />
-        <pointLight position={[-10, -10, -10]} color="#7c3aed" intensity={0.3} />
-        
-        <HologramFigure />
-        <Particles />
-        <Platform />
-      </Canvas>
+    <div className="relative w-full h-full flex items-center justify-center">
+      {/* Glow backdrop */}
+      <motion.div
+        animate={{ 
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.05, 1]
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+        className="absolute w-64 h-64 bg-primary/20 rounded-full blur-3xl"
+      />
+      
+      {/* Canvas */}
+      <canvas
+        ref={canvasRef}
+        width={400}
+        height={500}
+        className="relative z-10"
+      />
+      
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-cyan-400 rounded-full"
+            style={{
+              left: `${20 + (i * 4)}%`,
+              top: `${30 + (i % 5) * 10}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{
+              duration: 2 + (i % 3),
+              repeat: Infinity,
+              delay: i * 0.2,
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
