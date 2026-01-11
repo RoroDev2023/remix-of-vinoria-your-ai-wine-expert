@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Send, Mic, Volume2 } from "lucide-react";
 import { Button } from "./ui/button";
-import WineBottle3D from "./WineBottle3D";
+import Hologram3D from "./Hologram3D";
 
 const sampleConversations = [
   { 
@@ -198,7 +198,7 @@ const HologramSection = () => {
                   className="absolute w-48 h-48 rounded-full"
                 />
                 
-                <WineBottle3D isSpeaking={isSpeaking} />
+                <Hologram3D isSpeaking={isSpeaking} />
                 
                 {/* Status indicator */}
                 <motion.div
