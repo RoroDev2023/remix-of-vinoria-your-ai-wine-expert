@@ -12,6 +12,7 @@ const Navbar = () => {
 
   const navItems = [
     { name: "How It Works", href: isHomePage ? "#ai-sommelier" : "/#ai-sommelier" },
+    { name: "Roadmap", href: "/roadmap", isLink: true },
     { name: "Our Vision", href: isHomePage ? "#about" : "/#about" },
     { name: "Team", href: "/team", isLink: true },
     { name: "Contact", href: isHomePage ? "#contact" : "/#contact" },
