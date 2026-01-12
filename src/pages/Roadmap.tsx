@@ -71,108 +71,110 @@ const RoadmapPage = () => {
         </div>
       </section>
 
-      {/* Roadmap Timeline */}
-      <section className="py-20 relative">
+      {/* Roadmap Timeline - Horizontal Layout */}
+      <section className="py-20 relative overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="relative">
-            {/* Connection Line */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-gold to-primary/30 -translate-y-1/2" />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {stages.map((stage, index) => (
-                <motion.div
-                  key={stage.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className="relative"
-                >
-                  {/* Stage Card */}
-                  <div
-                    className={`relative p-6 rounded-2xl border transition-all duration-300 hover:scale-105 ${
-                      stage.status === "current"
-                        ? "bg-gradient-to-br from-primary/20 to-gold/10 border-primary/50 shadow-lg shadow-primary/20"
-                        : "bg-card/50 border-border/50 hover:border-primary/30"
-                    }`}
-                  >
-                    {/* Status Indicator */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                          stage.status === "current"
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted text-muted-foreground"
-                        }`}
-                      >
-                        <stage.icon className="w-6 h-6" />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {stage.status === "current" ? (
-                          <>
-                            <span className="text-xs font-medium text-primary uppercase tracking-wider">
-                              In Progress
-                            </span>
-                            <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                          </>
-                        ) : (
-                          <Circle className="w-4 h-4 text-muted-foreground" />
-                        )}
-                      </div>
+          <div className="space-y-0">
+            {stages.map((stage, index) => (
+              <motion.div
+                key={stage.id}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="relative"
+              >
+                {/* Horizontal Stage Row */}
+                <div className={`flex flex-col md:flex-row items-center gap-6 md:gap-12 py-12 ${
+                  index % 2 === 1 ? "md:flex-row-reverse" : ""
+                }`}>
+                  {/* Stage Number & Icon Column */}
+                  <div className="flex-shrink-0 relative">
+                    <div
+                      className={`w-24 h-24 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${
+                        stage.status === "current"
+                          ? "bg-gradient-to-br from-primary to-gold shadow-lg shadow-primary/30"
+                          : "bg-card border border-border"
+                      }`}
+                    >
+                      <span className={`text-3xl font-bold mb-1 ${
+                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground"
+                      }`}>
+                        {stage.id}
+                      </span>
+                      <stage.icon className={`w-6 h-6 ${
+                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground"
+                      }`} />
                     </div>
+                    
+                    {/* Status Badge */}
+                    {stage.status === "current" && (
+                      <div className="absolute -top-2 -right-2 flex items-center gap-1 px-2 py-1 bg-primary rounded-full">
+                        <div className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-pulse" />
+                        <span className="text-[10px] font-medium text-primary-foreground uppercase">Now</span>
+                      </div>
+                    )}
+                  </div>
 
-                    {/* Stage Number */}
-                    <div className="absolute -top-3 -left-3 w-8 h-8 bg-background border-2 border-primary rounded-full flex items-center justify-center">
-                      <span className="text-sm font-bold text-primary">{stage.id}</span>
-                    </div>
-
-                    {/* Content */}
-                    <h3 className="font-display text-xl font-semibold text-foreground mb-2">
+                  {/* Content Column */}
+                  <div className={`flex-1 text-center md:text-left ${
+                    index % 2 === 1 ? "md:text-right" : ""
+                  }`}>
+                    <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
                       {stage.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed">
+                    <p className="text-muted-foreground text-lg mb-6 max-w-xl">
                       {stage.description}
                     </p>
 
-                    {/* Details List */}
-                    <ul className="space-y-2">
+                    {/* Details as horizontal pills */}
+                    <div className={`flex flex-wrap gap-3 ${
+                      index % 2 === 1 ? "md:justify-end" : ""
+                    } justify-center md:justify-start`}>
                       {stage.details.map((detail, detailIndex) => (
-                        <li key={detailIndex} className="flex items-center gap-2 text-sm">
-                          <CheckCircle2
-                            className={`w-4 h-4 flex-shrink-0 ${
-                              stage.status === "current" ? "text-primary" : "text-muted-foreground/50"
-                            }`}
-                          />
-                          <span
-                            className={
-                              stage.status === "current" ? "text-foreground" : "text-muted-foreground"
-                            }
-                          >
-                            {detail}
-                          </span>
-                        </li>
+                        <motion.div
+                          key={detailIndex}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.3 + detailIndex * 0.1 }}
+                          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+                            stage.status === "current"
+                              ? "bg-primary/10 border border-primary/30 text-foreground"
+                              : "bg-muted/50 border border-border text-muted-foreground"
+                          }`}
+                        >
+                          <CheckCircle2 className={`w-4 h-4 ${
+                            stage.status === "current" ? "text-primary" : "text-muted-foreground/50"
+                          }`} />
+                          {detail}
+                        </motion.div>
                       ))}
-                    </ul>
-                  </div>
-
-                  {/* Mobile connector */}
-                  {index < stages.length - 1 && (
-                    <div className="lg:hidden flex justify-center my-4">
-                      <div className="w-0.5 h-8 bg-gradient-to-b from-primary to-primary/30" />
                     </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                  </div>
+                </div>
 
-          {/* Investment CTA */}
+                {/* Connector Line */}
+                {index < stages.length - 1 && (
+                  <div className="flex justify-center">
+                    <div className="w-px h-16 bg-gradient-to-b from-primary/50 via-gold/30 to-transparent" />
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Investment CTA */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-16 text-center"
+            className="text-center"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/10 to-gold/10 border border-primary/30 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
