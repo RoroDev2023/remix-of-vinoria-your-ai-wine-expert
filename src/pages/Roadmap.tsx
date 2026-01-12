@@ -46,9 +46,9 @@ const RoadmapPage = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-16 relative overflow-hidden">
         {/* Background decorations */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold rounded-full blur-3xl" />
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-wine-600 rounded-full blur-3xl opacity-20" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold rounded-full blur-3xl opacity-15" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -58,7 +58,7 @@ const RoadmapPage = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <span className="text-primary font-body text-sm tracking-widest uppercase mb-4 block">
+            <span className="text-gold font-body text-sm tracking-widest uppercase mb-4 block font-semibold">
               Our Journey
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mb-6">
@@ -91,27 +91,27 @@ const RoadmapPage = () => {
                   {/* Stage Number & Icon Column */}
                   <div className="flex-shrink-0 relative">
                     <div
-                      className={`w-24 h-24 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${
+                      className={`w-28 h-28 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${
                         stage.status === "current"
-                          ? "bg-gradient-to-br from-primary to-gold shadow-lg shadow-primary/30"
-                          : "bg-card border border-border"
+                          ? "bg-gradient-to-br from-wine-600 via-wine-700 to-wine-800 shadow-xl shadow-wine-600/40 ring-2 ring-gold/50"
+                          : "bg-gradient-to-br from-card to-muted border-2 border-wine-800/50 hover:border-gold/30"
                       }`}
                     >
-                      <span className={`text-3xl font-bold mb-1 ${
-                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground"
+                      <span className={`text-4xl font-bold mb-1 ${
+                        stage.status === "current" ? "text-gold" : "text-wine-400"
                       }`}>
                         {stage.id}
                       </span>
-                      <stage.icon className={`w-6 h-6 ${
-                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground"
+                      <stage.icon className={`w-7 h-7 ${
+                        stage.status === "current" ? "text-cream" : "text-wine-500"
                       }`} />
                     </div>
                     
                     {/* Status Badge */}
                     {stage.status === "current" && (
-                      <div className="absolute -top-2 -right-2 flex items-center gap-1 px-2 py-1 bg-primary rounded-full">
-                        <div className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-pulse" />
-                        <span className="text-[10px] font-medium text-primary-foreground uppercase">Now</span>
+                      <div className="absolute -top-3 -right-3 flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-gold to-gold-dark rounded-full shadow-lg shadow-gold/30">
+                        <div className="w-2 h-2 bg-wine-900 rounded-full animate-pulse" />
+                        <span className="text-xs font-bold text-wine-900 uppercase tracking-wide">Active</span>
                       </div>
                     )}
                   </div>
@@ -120,7 +120,9 @@ const RoadmapPage = () => {
                   <div className={`flex-1 text-center md:text-left ${
                     index % 2 === 1 ? "md:text-right" : ""
                   }`}>
-                    <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+                    <h3 className={`font-display text-3xl md:text-4xl font-bold mb-3 ${
+                      stage.status === "current" ? "text-gold" : "text-foreground"
+                    }`}>
                       {stage.title}
                     </h3>
                     <p className="text-muted-foreground text-lg mb-6 max-w-xl">
@@ -138,15 +140,17 @@ const RoadmapPage = () => {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ delay: 0.3 + detailIndex * 0.1 }}
-                          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+                          className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                             stage.status === "current"
-                              ? "bg-primary/10 border border-primary/30 text-foreground"
-                              : "bg-muted/50 border border-border text-muted-foreground"
+                              ? "bg-gradient-to-r from-wine-800/80 to-wine-900/80 border-2 border-gold/40 text-cream shadow-lg shadow-wine-900/30 hover:border-gold/60"
+                              : "bg-wine-900/40 border border-wine-700/50 text-wine-200 hover:border-wine-600/70 hover:bg-wine-800/50"
                           }`}
                         >
-                          <CheckCircle2 className={`w-4 h-4 ${
-                            stage.status === "current" ? "text-primary" : "text-muted-foreground/50"
-                          }`} />
+                          {stage.status === "current" ? (
+                            <CheckCircle2 className="w-4 h-4 text-gold" />
+                          ) : (
+                            <Circle className="w-4 h-4 text-wine-500" />
+                          )}
                           {detail}
                         </motion.div>
                       ))}
@@ -157,7 +161,7 @@ const RoadmapPage = () => {
                 {/* Connector Line */}
                 {index < stages.length - 1 && (
                   <div className="flex justify-center">
-                    <div className="w-px h-16 bg-gradient-to-b from-primary/50 via-gold/30 to-transparent" />
+                    <div className="w-1 h-20 bg-gradient-to-b from-wine-600 via-gold/50 to-wine-800/30 rounded-full" />
                   </div>
                 )}
               </motion.div>
@@ -176,9 +180,9 @@ const RoadmapPage = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/10 to-gold/10 border border-primary/30 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-foreground font-medium">
+            <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-wine-800/60 to-wine-900/60 border-2 border-gold/40 rounded-full shadow-xl shadow-wine-900/30">
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
+              <span className="text-cream font-semibold text-lg">
                 Currently seeking investment partners for Series A
               </span>
             </div>
