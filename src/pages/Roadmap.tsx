@@ -78,86 +78,120 @@ const RoadmapPage = () => {
             {stages.map((stage, index) => (
               <motion.div
                 key={stage.id}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.7, delay: index * 0.15 }}
                 className="relative"
               >
                 {/* Horizontal Stage Row */}
-                <div className={`flex flex-col md:flex-row items-center gap-6 md:gap-12 py-12 ${
+                <div className={`flex flex-col md:flex-row items-stretch gap-8 md:gap-16 py-12 ${
                   index % 2 === 1 ? "md:flex-row-reverse" : ""
                 }`}>
-                  {/* Stage Number & Icon Column */}
-                  <div className="flex-shrink-0 relative">
-                    <div
-                      className={`w-24 h-24 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 ${
+                  {/* Stage Number & Icon Column - Enhanced */}
+                  <div className="flex-shrink-0 relative flex items-center justify-center">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      className={`w-32 h-32 md:w-40 md:h-40 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 relative overflow-hidden ${
                         stage.status === "current"
-                          ? "bg-gradient-to-br from-primary to-gold shadow-lg shadow-primary/30"
-                          : "bg-card border border-border"
+                          ? "bg-gradient-to-br from-primary via-primary/90 to-gold shadow-2xl shadow-primary/40"
+                          : "bg-gradient-to-br from-card to-muted/50 border-2 border-border hover:border-primary/30"
                       }`}
                     >
-                      <span className={`text-3xl font-bold mb-1 ${
-                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground"
+                      {/* Decorative glow for current */}
+                      {stage.status === "current" && (
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+                      )}
+                      
+                      <span className={`text-5xl md:text-6xl font-bold mb-2 relative z-10 ${
+                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground/60"
                       }`}>
                         {stage.id}
                       </span>
-                      <stage.icon className={`w-6 h-6 ${
-                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground"
+                      <stage.icon className={`w-8 h-8 md:w-10 md:h-10 relative z-10 ${
+                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground/60"
                       }`} />
-                    </div>
+                    </motion.div>
                     
-                    {/* Status Badge */}
+                    {/* Status Badge - Enhanced */}
                     {stage.status === "current" && (
-                      <div className="absolute -top-2 -right-2 flex items-center gap-1 px-2 py-1 bg-primary rounded-full">
-                        <div className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-pulse" />
-                        <span className="text-[10px] font-medium text-primary-foreground uppercase">Now</span>
-                      </div>
+                      <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -top-3 -right-3 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gold to-primary rounded-full shadow-lg"
+                      >
+                        <div className="w-2 h-2 bg-primary-foreground rounded-full animate-pulse" />
+                        <span className="text-xs font-bold text-primary-foreground uppercase tracking-wider">Active</span>
+                      </motion.div>
                     )}
                   </div>
 
-                  {/* Content Column */}
-                  <div className={`flex-1 text-center md:text-left ${
+                  {/* Content Column - Enhanced */}
+                  <div className={`flex-1 flex flex-col justify-center text-center md:text-left ${
                     index % 2 === 1 ? "md:text-right" : ""
                   }`}>
-                    <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+                    <motion.h3 
+                      className={`font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
+                        stage.status === "current" 
+                          ? "text-foreground" 
+                          : "text-foreground/80"
+                      }`}
+                    >
                       {stage.title}
-                    </h3>
-                    <p className="text-muted-foreground text-lg mb-6 max-w-xl">
+                    </motion.h3>
+                    <p className={`text-lg md:text-xl mb-8 max-w-2xl leading-relaxed ${
+                      stage.status === "current" 
+                        ? "text-muted-foreground" 
+                        : "text-muted-foreground/70"
+                    } ${index % 2 === 1 ? "md:ml-auto" : ""}`}>
                       {stage.description}
                     </p>
 
-                    {/* Details as horizontal pills */}
-                    <div className={`flex flex-wrap gap-3 ${
+                    {/* Details as enhanced cards */}
+                    <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 ${
                       index % 2 === 1 ? "md:justify-end" : ""
-                    } justify-center md:justify-start`}>
+                    }`}>
                       {stage.details.map((detail, detailIndex) => (
                         <motion.div
                           key={detailIndex}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
-                          transition={{ delay: 0.3 + detailIndex * 0.1 }}
-                          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+                          transition={{ delay: 0.4 + detailIndex * 0.15 }}
+                          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                          className={`group relative p-5 rounded-2xl text-sm font-medium transition-all duration-300 ${
                             stage.status === "current"
-                              ? "bg-primary/10 border border-primary/30 text-foreground"
-                              : "bg-muted/50 border border-border text-muted-foreground"
+                              ? "bg-gradient-to-br from-primary/15 to-gold/10 border-2 border-primary/40 text-foreground shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20"
+                              : "bg-muted/30 border-2 border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/50"
                           }`}
                         >
-                          <CheckCircle2 className={`w-4 h-4 ${
-                            stage.status === "current" ? "text-primary" : "text-muted-foreground/50"
-                          }`} />
-                          {detail}
+                          <div className="flex items-start gap-3">
+                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                              stage.status === "current" 
+                                ? "bg-primary/20" 
+                                : "bg-muted"
+                            }`}>
+                              {stage.status === "current" ? (
+                                <CheckCircle2 className="w-5 h-5 text-primary" />
+                              ) : (
+                                <Circle className="w-4 h-4 text-muted-foreground/50" />
+                              )}
+                            </div>
+                            <span className="text-left leading-snug">{detail}</span>
+                          </div>
                         </motion.div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Connector Line */}
+                {/* Connector Line - Enhanced */}
                 {index < stages.length - 1 && (
-                  <div className="flex justify-center">
-                    <div className="w-px h-16 bg-gradient-to-b from-primary/50 via-gold/30 to-transparent" />
+                  <div className="flex justify-center py-4">
+                    <div className="relative">
+                      <div className="w-1 h-20 bg-gradient-to-b from-primary/60 via-gold/40 to-primary/20 rounded-full" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-primary/40 rounded-full animate-pulse" />
+                    </div>
                   </div>
                 )}
               </motion.div>
