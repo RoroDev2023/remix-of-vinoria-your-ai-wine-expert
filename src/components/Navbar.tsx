@@ -11,6 +11,7 @@ const Navbar = () => {
   const isHomePage = location.pathname === "/";
 
   const navItems = [
+    { name: "Simulator", href: "/simulator", isLink: true },
     { name: "How It Works", href: isHomePage ? "#ai-sommelier" : "/#ai-sommelier" },
     { name: "Roadmap", href: "/roadmap", isLink: true },
     { name: "Our Vision", href: isHomePage ? "#about" : "/#about" },

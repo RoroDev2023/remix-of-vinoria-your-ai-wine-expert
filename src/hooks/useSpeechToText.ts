@@ -1,0 +1,54 @@
+import { useState, useCallback } from "react";
+
+const STT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-stt`;
+
+interface UseSpeechToTextReturn {
+  isTranscribing: boolean;
+  transcribe: (audioBase64: string) => Promise<string>;
+  error: string | null;
+}
+
+export const useSpeechToText = (): UseSpeechToTextReturn => {
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const transcribe = useCallback(async (audioBase64: string): Promise<string> => {
+    try {
+      setError(null);
+      setIsTranscribing(true);
+
+      const response = await fetch(STT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ audio: audioBase64 }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to transcribe audio");
+      }
+
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      return data.text || "";
+    } catch (err) {
+      console.error("STT error:", err);
+      setError(err instanceof Error ? err.message : "Failed to transcribe");
+      return "";
+    } finally {
+      setIsTranscribing(false);
+    }
+  }, []);
+
+  return {
+    isTranscribing,
+    transcribe,
+    error,
+  };
+};
