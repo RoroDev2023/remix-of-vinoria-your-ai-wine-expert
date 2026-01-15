@@ -8,7 +8,7 @@ import { useVoiceRecorder } from "@/hooks/useVoiceRecorder";
 import { useSommelierChat } from "@/hooks/useSommelierChat";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 import { useSpeechToText } from "@/hooks/useSpeechToText";
-import Hologram3D from "./Hologram3D";
+import AIOrb from "./AIOrb";
 
 const VoiceSommelier = () => {
   const { toast } = useToast();
@@ -167,46 +167,17 @@ const VoiceSommelier = () => {
         ) : (
           /* Conversation Interface */
           <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Hologram Display */}
+            {/* AI Orb Display */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="relative h-[400px] lg:h-[500px] flex items-center justify-center"
+              className="relative h-[450px] lg:h-[550px] flex items-center justify-center"
             >
-              <Hologram3D isSpeaking={isSpeaking} />
-              
-              {/* Voice indicator */}
-              <AnimatePresence>
-                {(isRecording || isTranscribing || isSpeaking) && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-border"
-                  >
-                    <div className="flex items-center gap-2">
-                      {isRecording && (
-                        <>
-                          <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                          <span className="text-sm text-muted-foreground">Listening...</span>
-                        </>
-                      )}
-                      {isTranscribing && (
-                        <>
-                          <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                          <span className="text-sm text-muted-foreground">Processing...</span>
-                        </>
-                      )}
-                      {isSpeaking && (
-                        <>
-                          <Volume2 className="w-4 h-4 text-primary animate-pulse" />
-                          <span className="text-sm text-muted-foreground">Speaking...</span>
-                        </>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <AIOrb 
+                isSpeaking={isSpeaking} 
+                isListening={isRecording}
+                isThinking={isLoading || isTranscribing}
+              />
             </motion.div>
 
             {/* Chat Interface */}
