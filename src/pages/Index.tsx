@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HologramSection from "@/components/HologramSection";
 import HomePulseBand from "@/components/HomePulseBand";
-import HomeMilestones from "@/components/HomeMilestones";
+
 import FeaturedWines from "@/components/FeaturedWines";
 import AISommelier from "@/components/AISommelier";
 import About from "@/components/About";
@@ -21,11 +21,6 @@ const Index = () => {
         <Navbar />
         <HologramSection />
         <HomePulseBand />
-        <div className="relative">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-tech/60 to-transparent" />
-          <HomeMilestones />
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-        </div>
         <FeaturedWines />
         <AISommelier />
         <About />
