@@ -1,54 +1,106 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Rocket, MapPin, Globe, Crown, CheckCircle2, Circle } from "lucide-react";
+import { Rocket, MapPin, Globe, Crown, CheckCircle2, Circle, Cpu } from "lucide-react";
 
 const stages = [
   {
-    id: 1,
-    title: "Foundation",
+    id: "01",
+    code: "S1",
+    tone: "ruby",
     status: "current",
+    phase: "Active",
+    title: "Foundation",
     icon: Rocket,
     description: "Secured $100K investment. Working on licensing and company creation in Switzerland.",
     details: ["$100K seed funding secured", "Swiss licensing in progress", "Company incorporation underway"],
   },
   {
-    id: 2,
-    title: "Swiss Expansion",
+    id: "02",
+    code: "CH",
+    tone: "tech",
     status: "upcoming",
+    phase: "Queued",
+    title: "Swiss Expansion",
     icon: MapPin,
     description: "Opening locations in Geneva and expanding throughout Switzerland.",
-    details: ["Geneva flagship store", "Zurich & Basel locations", "Full Swiss market coverage"],
+    details: ["Geneva flagship store", "Zurich and Basel locations", "Full Swiss market coverage"],
   },
   {
-    id: 3,
-    title: "US Market Entry",
+    id: "03",
+    code: "US",
+    tone: "emerald",
     status: "upcoming",
+    phase: "Pipeline",
+    title: "US Market Entry",
     icon: Globe,
     description: "Migrating to the US with locations in California and Florida.",
     details: ["California launch", "Florida expansion", "US headquarters establishment"],
   },
   {
-    id: 4,
-    title: "Global Brand",
+    id: "04",
+    code: "GL",
+    tone: "gold",
     status: "upcoming",
+    phase: "Vision",
+    title: "Global Brand",
     icon: Crown,
     description: "Becoming a global brand with presence in the world's most famous destinations.",
     details: ["Premium global locations", "International brand recognition", "Worldwide AI sommelier network"],
   },
 ];
 
+const toneStyles = {
+  ruby: {
+    border: "border-primary/35",
+    glow: "from-primary/25 via-primary/5 to-transparent",
+    chip: "border-primary/40 bg-primary/15 text-primary",
+    node: "from-primary/90 to-gold/70",
+    nodeBorder: "border-primary/40",
+    icon: "text-primary",
+    detail: "border-primary/25 bg-primary/10",
+  },
+  tech: {
+    border: "border-tech/35",
+    glow: "from-tech/25 via-tech/5 to-transparent",
+    chip: "border-tech/40 bg-tech/15 text-tech",
+    node: "from-tech/90 to-cyan-300/70",
+    nodeBorder: "border-tech/40",
+    icon: "text-tech",
+    detail: "border-tech/25 bg-tech/10",
+  },
+  emerald: {
+    border: "border-emerald-400/35",
+    glow: "from-emerald-400/25 via-emerald-400/5 to-transparent",
+    chip: "border-emerald-400/40 bg-emerald-400/15 text-emerald-500",
+    node: "from-emerald-400/90 to-emerald-300/70",
+    nodeBorder: "border-emerald-400/40",
+    icon: "text-emerald-400",
+    detail: "border-emerald-400/25 bg-emerald-400/10",
+  },
+  gold: {
+    border: "border-gold/35",
+    glow: "from-gold/25 via-gold/5 to-transparent",
+    chip: "border-gold/40 bg-gold/15 text-gold",
+    node: "from-gold/90 to-yellow-200/70",
+    nodeBorder: "border-gold/40",
+    icon: "text-gold",
+    detail: "border-gold/25 bg-gold/10",
+  },
+} as const;
+
 const RoadmapPage = () => {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="relative min-h-screen bg-background overflow-hidden">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 relative overflow-hidden">
-        {/* Background decorations */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold rounded-full blur-3xl" />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 tech-grid opacity-15" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(var(--tech-accent)/0.18)_0%,_transparent_60%)]" />
+          <div className="absolute -top-24 right-0 h-96 w-96 rounded-full bg-tech/15 blur-3xl" />
+          <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-primary/15 blur-3xl" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -56,146 +108,140 @@ const RoadmapPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center"
           >
-            <span className="text-primary font-body text-sm tracking-widest uppercase mb-4 block">
-              Our Journey
-            </span>
-            <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mb-6">
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-tech/40 bg-card/40 backdrop-blur-md">
+              <Cpu className="w-4 h-4 text-tech" />
+              <span className="text-xs uppercase tracking-[0.35em] text-tech">Signal Map</span>
+            </div>
+            <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mt-6 mb-6">
               Roadmap to the Future
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-xl">
-              From a Swiss startup to a global phenomenon — here's our vision for bringing AI-powered wine expertise to the world.
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg md:text-xl">
+              From a Swiss startup to a global phenomenon, this is the live trajectory for Vinoria's
+              AI-powered wine experience.
             </p>
           </motion.div>
+
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Seed secured", value: "$100K" },
+              { label: "Launch targets", value: "2 cities" },
+              { label: "Market reach", value: "4+" },
+              { label: "Voice sessions", value: "24/7" },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-border/60 bg-card/30 px-4 py-3 text-center backdrop-blur"
+              >
+                <div className="text-xl font-semibold text-foreground">{stat.value}</div>
+                <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mt-1">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Roadmap Timeline - Horizontal Layout */}
+      {/* Roadmap Timeline */}
       <section className="py-20 relative overflow-hidden">
-        <div className="container mx-auto px-6">
-          <div className="space-y-0">
-            {stages.map((stage, index) => (
-              <motion.div
-                key={stage.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.7, delay: index * 0.15 }}
-                className="relative"
-              >
-                {/* Horizontal Stage Row */}
-                <div className={`flex flex-col md:flex-row items-stretch gap-8 md:gap-16 py-12 ${
-                  index % 2 === 1 ? "md:flex-row-reverse" : ""
-                }`}>
-                  {/* Stage Number & Icon Column - Enhanced */}
-                  <div className="flex-shrink-0 relative flex items-center justify-center">
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className={`w-32 h-32 md:w-40 md:h-40 rounded-3xl flex flex-col items-center justify-center transition-all duration-500 relative overflow-hidden ${
-                        stage.status === "current"
-                          ? "bg-gradient-to-br from-primary via-primary/90 to-gold shadow-2xl shadow-primary/40"
-                          : "bg-gradient-to-br from-card to-muted/50 border-2 border-border hover:border-primary/30"
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 tech-dots opacity-30" />
+          <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-tech/70 via-primary/30 to-transparent md:block" />
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="space-y-16">
+            {stages.map((stage, index) => {
+              const tone = toneStyles[stage.tone as keyof typeof toneStyles];
+              const isLeft = index % 2 === 0;
+              const statusChip =
+                stage.status === "current"
+                  ? "border-primary/40 bg-primary/15 text-primary"
+                  : "border-border/60 bg-background/60 text-muted-foreground";
+
+              return (
+                <motion.div
+                  key={stage.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.7, delay: index * 0.12 }}
+                  className="relative"
+                >
+                  <div className="flex flex-col md:grid md:grid-cols-[1fr_auto_1fr] md:gap-10 items-start">
+                    <div
+                      className={`order-2 md:order-none ${
+                        isLeft ? "md:col-start-1" : "md:col-start-3"
                       }`}
                     >
-                      {/* Decorative glow for current */}
-                      {stage.status === "current" && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
-                      )}
-                      
-                      <span className={`text-5xl md:text-6xl font-bold mb-2 relative z-10 ${
-                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground/60"
-                      }`}>
-                        {stage.id}
-                      </span>
-                      <stage.icon className={`w-8 h-8 md:w-10 md:h-10 relative z-10 ${
-                        stage.status === "current" ? "text-primary-foreground" : "text-muted-foreground/60"
-                      }`} />
-                    </motion.div>
-                    
-                    {/* Status Badge - Enhanced */}
-                    {stage.status === "current" && (
-                      <motion.div 
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute -top-3 -right-3 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gold to-primary rounded-full shadow-lg"
+                      <div
+                        className={`relative overflow-hidden rounded-3xl border ${tone.border} bg-card/40 backdrop-blur-xl shadow-card`}
                       >
-                        <div className="w-2 h-2 bg-primary-foreground rounded-full animate-pulse" />
-                        <span className="text-xs font-bold text-primary-foreground uppercase tracking-wider">Active</span>
-                      </motion.div>
-                    )}
-                  </div>
-
-                  {/* Content Column - Enhanced */}
-                  <div className={`flex-1 flex flex-col justify-center text-center md:text-left ${
-                    index % 2 === 1 ? "md:text-right" : ""
-                  }`}>
-                    <motion.h3 
-                      className={`font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
-                        stage.status === "current" 
-                          ? "text-foreground" 
-                          : "text-foreground/80"
-                      }`}
-                    >
-                      {stage.title}
-                    </motion.h3>
-                    <p className={`text-lg md:text-xl mb-8 max-w-2xl leading-relaxed ${
-                      stage.status === "current" 
-                        ? "text-muted-foreground" 
-                        : "text-muted-foreground/70"
-                    } ${index % 2 === 1 ? "md:ml-auto" : ""}`}>
-                      {stage.description}
-                    </p>
-
-                    {/* Details as enhanced cards */}
-                    <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 ${
-                      index % 2 === 1 ? "md:justify-end" : ""
-                    }`}>
-                      {stage.details.map((detail, detailIndex) => (
-                        <motion.div
-                          key={detailIndex}
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.4 + detailIndex * 0.15 }}
-                          whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                          className={`group relative p-5 rounded-2xl text-sm font-medium transition-all duration-300 ${
-                            stage.status === "current"
-                              ? "bg-gradient-to-br from-primary/15 to-gold/10 border-2 border-primary/40 text-foreground shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20"
-                              : "bg-muted/30 border-2 border-border/50 text-muted-foreground hover:border-primary/30 hover:bg-muted/50"
-                          }`}
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                              stage.status === "current" 
-                                ? "bg-primary/20" 
-                                : "bg-muted"
-                            }`}>
-                              {stage.status === "current" ? (
-                                <CheckCircle2 className="w-5 h-5 text-primary" />
-                              ) : (
-                                <Circle className="w-4 h-4 text-muted-foreground/50" />
-                              )}
-                            </div>
-                            <span className="text-left leading-snug">{detail}</span>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${tone.glow}`} />
+                        <div className="relative p-8">
+                          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.25em]">
+                            <span className={`rounded-full border px-3 py-1 ${tone.chip}`}>
+                              {stage.phase}
+                            </span>
+                            <span className={`rounded-full border px-3 py-1 ${statusChip}`}>
+                              {stage.status === "current" ? "Live" : "Upcoming"}
+                            </span>
                           </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
 
-                {/* Connector Line - Enhanced */}
-                {index < stages.length - 1 && (
-                  <div className="flex justify-center py-4">
-                    <div className="relative">
-                      <div className="w-1 h-20 bg-gradient-to-b from-primary/60 via-gold/40 to-primary/20 rounded-full" />
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-primary/40 rounded-full animate-pulse" />
+                          <div className="mt-4 flex items-center gap-3">
+                            <stage.icon className={`w-6 h-6 ${tone.icon}`} />
+                            <h3 className="font-display text-3xl md:text-4xl font-semibold text-foreground">
+                              {stage.title}
+                            </h3>
+                          </div>
+                          <p className="text-muted-foreground text-base md:text-lg mt-3 leading-relaxed">
+                            {stage.description}
+                          </p>
+
+                          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                            {stage.details.map((detail) => (
+                              <div
+                                key={detail}
+                                className={`flex items-start gap-3 rounded-2xl border px-4 py-4 text-sm font-medium text-foreground/90 ${tone.detail}`}
+                              >
+                                <div className="mt-0.5">
+                                  {stage.status === "current" ? (
+                                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                                  ) : (
+                                    <Circle className="w-4 h-4 text-muted-foreground/60" />
+                                  )}
+                                </div>
+                                <span>{detail}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+                    <div className="order-1 md:order-none md:col-start-2 flex justify-center">
+                      <div className="relative flex flex-col items-center">
+                        <div
+                          className={`relative h-16 w-16 rounded-2xl border ${tone.nodeBorder} bg-gradient-to-br ${tone.node} flex items-center justify-center shadow-lg`}
+                        >
+                          <span className="text-xs font-semibold text-white tracking-[0.3em] ml-1">
+                            {stage.code}
+                          </span>
+                          <div className="absolute inset-0 rounded-2xl opacity-50 blur-lg bg-gradient-to-br from-white/20 to-transparent" />
+                        </div>
+                        <div className="mt-3 text-[11px] uppercase tracking-[0.35em] text-muted-foreground">
+                          {stage.id}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={`hidden md:block ${isLeft ? "md:col-start-3" : "md:col-start-1"}`} />
                   </div>
-                )}
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -207,7 +253,7 @@ const RoadmapPage = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
             className="text-center"
           >
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/10 to-gold/10 border border-primary/30 rounded-full">

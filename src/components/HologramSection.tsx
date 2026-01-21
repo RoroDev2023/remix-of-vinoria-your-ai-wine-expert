@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { Send, Mic, Volume2 } from "lucide-react";
 import { Button } from "./ui/button";
-import Hologram3D from "./Hologram3D";
+import Hologram3D, { type WineType } from "./Hologram3D";
 
 const sampleConversations = [
   { 
@@ -26,6 +26,7 @@ const HologramSection = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [currentDemo, setCurrentDemo] = useState(0);
+  const [wineType, setWineType] = useState<WineType>("red");
 
   // Auto-demo conversation
   useEffect(() => {
@@ -181,6 +182,27 @@ const HologramSection = () => {
               
               {/* Left - Hologram Display */}
               <div className="relative h-[400px] lg:h-[500px] bg-gradient-to-b from-background/50 to-card/50 flex items-center justify-center overflow-hidden">
+                <div className="absolute left-5 top-5 z-10 flex flex-wrap gap-2">
+                  {[
+                    { id: "red", label: "Red" },
+                    { id: "white", label: "White" },
+                    { id: "rose", label: "Rose" },
+                    { id: "champagne", label: "Champagne" },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      onClick={() => setWineType(option.id as WineType)}
+                      className={`rounded-full border px-3 py-1 text-[11px] font-medium uppercase tracking-[0.12em] transition ${
+                        wineType === option.id
+                          ? "border-primary/50 bg-primary/10 text-primary"
+                          : "border-border/60 bg-background/60 text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+
                 {/* Hologram glow backdrop */}
                 <motion.div
                   animate={{ 
@@ -198,7 +220,10 @@ const HologramSection = () => {
                   className="absolute w-48 h-48 rounded-full"
                 />
                 
-                <Hologram3D isSpeaking={isSpeaking} />
+                <Hologram3D
+                  isSpeaking={isSpeaking}
+                  wineType={wineType}
+                />
                 
                 {/* Status indicator */}
                 <motion.div

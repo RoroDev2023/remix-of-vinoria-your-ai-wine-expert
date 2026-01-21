@@ -17,17 +17,31 @@ export const useSpeechToText = (): UseSpeechToTextReturn => {
       setError(null);
       setIsTranscribing(true);
 
+      if (!STT_URL || !import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) {
+        throw new Error("Speech-to-text is not configured");
+      }
+
       const response = await fetch(STT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         },
         body: JSON.stringify({ audio: audioBase64 }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to transcribe audio");
+        const contentType = response.headers.get("content-type") || "";
+        let details = `STT request failed (${response.status})`;
+        if (contentType.includes("application/json")) {
+          const errorData = await response.json();
+          details = errorData.error || details;
+        } else {
+          const text = await response.text();
+          if (text) details = `${details}: ${text}`;
+        }
+        throw new Error(details);
       }
 
       const data = await response.json();
