@@ -7,7 +7,7 @@ const stages = [
   {
     id: "01",
     code: "S1",
-    tone: "ruby",
+    tone: "wine",
     status: "current",
     phase: "Active",
     title: "Foundation",
@@ -18,7 +18,7 @@ const stages = [
   {
     id: "02",
     code: "CH",
-    tone: "tech",
+    tone: "amber",
     status: "upcoming",
     phase: "Queued",
     title: "Swiss Expansion",
@@ -29,7 +29,7 @@ const stages = [
   {
     id: "03",
     code: "US",
-    tone: "emerald",
+    tone: "copper",
     status: "upcoming",
     phase: "Pipeline",
     title: "US Market Entry",
@@ -51,41 +51,41 @@ const stages = [
 ];
 
 const toneStyles = {
-  ruby: {
-    border: "border-primary/35",
-    glow: "from-primary/25 via-primary/5 to-transparent",
-    chip: "border-primary/40 bg-primary/15 text-primary",
-    node: "from-primary/90 to-gold/70",
-    nodeBorder: "border-primary/40",
+  wine: {
+    border: "border-primary/40",
+    glow: "from-primary/20 via-primary/5 to-transparent",
+    chip: "border-primary/50 bg-primary/20 text-primary",
+    node: "from-primary to-wine-deep",
+    nodeBorder: "border-primary/50",
     icon: "text-primary",
-    detail: "border-primary/25 bg-primary/10",
+    detail: "border-primary/30 bg-primary/10",
   },
-  tech: {
-    border: "border-tech/35",
-    glow: "from-tech/25 via-tech/5 to-transparent",
-    chip: "border-tech/40 bg-tech/15 text-tech",
-    node: "from-tech/90 to-cyan-300/70",
-    nodeBorder: "border-tech/40",
-    icon: "text-tech",
-    detail: "border-tech/25 bg-tech/10",
+  amber: {
+    border: "border-amber/40",
+    glow: "from-amber/20 via-amber/5 to-transparent",
+    chip: "border-amber/50 bg-amber/20 text-amber",
+    node: "from-amber to-copper",
+    nodeBorder: "border-amber/50",
+    icon: "text-amber",
+    detail: "border-amber/30 bg-amber/10",
   },
-  emerald: {
-    border: "border-emerald-400/35",
-    glow: "from-emerald-400/25 via-emerald-400/5 to-transparent",
-    chip: "border-emerald-400/40 bg-emerald-400/15 text-emerald-500",
-    node: "from-emerald-400/90 to-emerald-300/70",
-    nodeBorder: "border-emerald-400/40",
-    icon: "text-emerald-400",
-    detail: "border-emerald-400/25 bg-emerald-400/10",
+  copper: {
+    border: "border-copper/40",
+    glow: "from-copper/20 via-copper/5 to-transparent",
+    chip: "border-copper/50 bg-copper/20 text-copper",
+    node: "from-copper to-gold-deep",
+    nodeBorder: "border-copper/50",
+    icon: "text-copper",
+    detail: "border-copper/30 bg-copper/10",
   },
   gold: {
-    border: "border-gold/35",
-    glow: "from-gold/25 via-gold/5 to-transparent",
-    chip: "border-gold/40 bg-gold/15 text-gold",
-    node: "from-gold/90 to-yellow-200/70",
-    nodeBorder: "border-gold/40",
+    border: "border-gold/40",
+    glow: "from-gold/20 via-gold/5 to-transparent",
+    chip: "border-gold/50 bg-gold/20 text-gold",
+    node: "from-gold to-gold-deep",
+    nodeBorder: "border-gold/50",
     icon: "text-gold",
-    detail: "border-gold/25 bg-gold/10",
+    detail: "border-gold/30 bg-gold/10",
   },
 } as const;
 
@@ -94,13 +94,16 @@ const RoadmapPage = () => {
     <main className="relative min-h-screen bg-background overflow-hidden">
       <Navbar />
 
+      {/* Cellar Vignette Overlay */}
+      <div className="fixed inset-0 pointer-events-none cellar-vignette z-0" />
+
       {/* Hero Section */}
       <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 tech-grid opacity-15" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(var(--tech-accent)/0.18)_0%,_transparent_60%)]" />
-          <div className="absolute -top-24 right-0 h-96 w-96 rounded-full bg-tech/15 blur-3xl" />
-          <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-primary/15 blur-3xl" />
+          <div className="absolute inset-0 tech-grid opacity-10" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(var(--primary)/0.15)_0%,_transparent_60%)]" />
+          <div className="absolute -top-24 right-0 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-gold/10 blur-3xl" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -110,9 +113,9 @@ const RoadmapPage = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-tech/40 bg-card/40 backdrop-blur-md">
-              <Cpu className="w-4 h-4 text-tech" />
-              <span className="text-xs uppercase tracking-[0.35em] text-tech">Signal Map</span>
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-gold/40 bg-card/60 backdrop-blur-md">
+              <Cpu className="w-4 h-4 text-gold" />
+              <span className="text-xs uppercase tracking-[0.35em] text-gold">Signal Map</span>
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-bold text-foreground mt-6 mb-6">
               Roadmap to the Future
@@ -132,7 +135,7 @@ const RoadmapPage = () => {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-border/60 bg-card/30 px-4 py-3 text-center backdrop-blur"
+                className="rounded-2xl border border-border bg-card/50 px-4 py-3 text-center backdrop-blur"
               >
                 <div className="text-xl font-semibold text-foreground">{stat.value}</div>
                 <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mt-1">
@@ -147,8 +150,8 @@ const RoadmapPage = () => {
       {/* Roadmap Timeline */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 tech-dots opacity-30" />
-          <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-tech/70 via-primary/30 to-transparent md:block" />
+          <div className="absolute inset-0 tech-dots opacity-20" />
+          <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-primary/50 via-gold/30 to-transparent md:block" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -158,8 +161,8 @@ const RoadmapPage = () => {
               const isLeft = index % 2 === 0;
               const statusChip =
                 stage.status === "current"
-                  ? "border-primary/40 bg-primary/15 text-primary"
-                  : "border-border/60 bg-background/60 text-muted-foreground";
+                  ? "border-primary/50 bg-primary/20 text-primary"
+                  : "border-border bg-card/60 text-muted-foreground";
 
               return (
                 <motion.div
@@ -177,7 +180,7 @@ const RoadmapPage = () => {
                       }`}
                     >
                       <div
-                        className={`relative overflow-hidden rounded-3xl border ${tone.border} bg-card/40 backdrop-blur-xl shadow-card`}
+                        className={`relative overflow-hidden rounded-3xl border ${tone.border} bg-card/60 backdrop-blur-xl shadow-card`}
                       >
                         <div className={`absolute inset-0 bg-gradient-to-br ${tone.glow}`} />
                         <div className="relative p-8">
@@ -256,8 +259,8 @@ const RoadmapPage = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/10 to-gold/10 border border-primary/30 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/15 to-gold/15 border border-primary/40 rounded-full">
+              <div className="w-2 h-2 bg-gold rounded-full animate-pulse" />
               <span className="text-foreground font-medium">
                 Currently seeking investment partners for Series A
               </span>
