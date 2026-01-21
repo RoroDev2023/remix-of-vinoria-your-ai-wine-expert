@@ -94,9 +94,6 @@ const RoadmapPage = () => {
     <main className="relative min-h-screen bg-background overflow-hidden">
       <Navbar />
 
-      {/* Cellar Vignette Overlay */}
-      <div className="fixed inset-0 pointer-events-none cellar-vignette z-0" />
-
       {/* Hero Section */}
       <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
