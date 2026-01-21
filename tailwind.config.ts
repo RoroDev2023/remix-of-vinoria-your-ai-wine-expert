@@ -61,12 +61,22 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           deep: "hsl(var(--wine-deep))",
           light: "hsl(var(--wine-light))",
+          rich: "hsl(var(--wine-rich))",
         },
         gold: {
           DEFAULT: "hsl(var(--gold))",
           light: "hsl(var(--gold-light))",
+          deep: "hsl(var(--gold-deep))",
         },
         cream: "hsl(var(--cream))",
+        amber: "hsl(var(--amber))",
+        copper: "hsl(var(--copper))",
+        burgundy: "hsl(var(--burgundy))",
+        cellar: {
+          warm: "hsl(var(--cellar-warm))",
+          shadow: "hsl(var(--cellar-shadow))",
+        },
+        // Keep tech for backwards compatibility but now maps to gold/amber
         tech: {
           DEFAULT: "hsl(var(--tech-accent))",
           glow: "hsl(var(--tech-glow))",
