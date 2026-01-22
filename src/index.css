@@ -6,108 +6,96 @@
 
 @layer base {
   :root {
-    /* Light Theme with Wine Cellar Accents */
-    --background: 30 15% 98%;
-    --foreground: 20 25% 12%;
+    --background: 0 0% 100%;
+    --foreground: 20 10% 12%;
 
-    --card: 30 20% 96%;
-    --card-foreground: 20 25% 12%;
+    --card: 40 20% 97%;
+    --card-foreground: 20 10% 12%;
 
-    --popover: 30 15% 99%;
-    --popover-foreground: 20 25% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 12%;
 
-    --primary: 345 70% 28%;
-    --primary-foreground: 30 15% 98%;
+    --primary: 345 60% 40%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 30 20% 92%;
-    --secondary-foreground: 20 25% 18%;
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 20 10% 20%;
 
-    --muted: 30 15% 93%;
-    --muted-foreground: 20 15% 40%;
+    --muted: 40 20% 94%;
+    --muted-foreground: 20 10% 45%;
 
-    --accent: 38 55% 45%;
-    --accent-foreground: 20 25% 12%;
+    --accent: 40 50% 50%;
+    --accent-foreground: 20 10% 12%;
 
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 30 15% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 30 15% 88%;
-    --input: 30 15% 88%;
-    --ring: 345 70% 28%;
+    --border: 40 15% 88%;
+    --input: 40 15% 88%;
+    --ring: 345 60% 40%;
 
     --radius: 0.5rem;
 
-    /* Wine Cellar Accent Tokens - Dark, Elegant, Mysterious */
-    --wine-deep: 345 75% 20%;
-    --wine-light: 345 55% 40%;
-    --wine-rich: 350 70% 25%;
-    --gold: 38 60% 45%;
+    /* Custom design tokens */
+    --wine-deep: 345 70% 30%;
+    --wine-light: 345 50% 50%;
+    --gold: 40 70% 45%;
     --gold-light: 40 50% 60%;
-    --gold-deep: 35 55% 32%;
-    --cream: 35 30% 95%;
-    --amber: 30 70% 38%;
-    --copper: 25 60% 32%;
-    --burgundy: 340 65% 22%;
-    
-    /* Tech accent now maps to gold/amber for consistency */
-    --tech-accent: 38 55% 45%;
-    --tech-glow: 35 60% 55%;
-    --cellar-warm: 25 35% 25%;
-    --cellar-shadow: 20 30% 15%;
+    --cream: 40 30% 96%;
+    --tech-accent: 200 80% 50%;
+    --tech-glow: 200 100% 60%;
 
-    /* Gradients - Light theme with wine cellar feel */
-    --gradient-hero: linear-gradient(135deg, hsl(30 15% 99%) 0%, hsl(30 20% 96%) 50%, hsl(30 15% 98%) 100%);
-    --gradient-wine: linear-gradient(180deg, hsl(345 70% 28%) 0%, hsl(345 75% 20%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(38 60% 45%) 0%, hsl(35 55% 32%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(30 20% 97%) 0%, hsl(30 15% 94%) 100%);
-    --gradient-tech: linear-gradient(135deg, hsl(345 70% 28%) 0%, hsl(38 55% 45%) 100%);
-    --gradient-cellar: linear-gradient(180deg, hsl(345 50% 15%) 0%, hsl(20 30% 10%) 100%);
+    /* Gradients - Light theme */
+    --gradient-hero: linear-gradient(135deg, hsl(40 30% 98%) 0%, hsl(40 20% 95%) 50%, hsl(0 0% 100%) 100%);
+    --gradient-wine: linear-gradient(180deg, hsl(345 60% 40%) 0%, hsl(345 70% 30%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(40 70% 45%) 0%, hsl(40 50% 60%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(40 20% 98%) 0%, hsl(40 20% 95%) 100%);
+    --gradient-tech: linear-gradient(135deg, hsl(345 60% 40%) 0%, hsl(200 80% 50%) 100%);
 
-    /* Shadows - Wine cellar inspired */
-    --shadow-glow: 0 0 60px hsl(345 70% 28% / 0.15);
-    --shadow-gold: 0 0 40px hsl(38 60% 45% / 0.15);
-    --shadow-card: 0 20px 40px hsl(20 25% 12% / 0.08);
-    --shadow-tech: 0 0 30px hsl(38 55% 45% / 0.12);
-    --shadow-cellar: 0 0 80px hsl(345 50% 20% / 0.2);
+    /* Shadows */
+    --shadow-glow: 0 0 60px hsl(345 60% 40% / 0.15);
+    --shadow-gold: 0 0 40px hsl(40 70% 45% / 0.15);
+    --shadow-card: 0 20px 40px hsl(20 10% 20% / 0.08);
+    --shadow-tech: 0 0 30px hsl(200 80% 50% / 0.2);
 
-    --sidebar-background: 30 15% 98%;
-    --sidebar-foreground: 20 25% 20%;
-    --sidebar-primary: 345 70% 28%;
-    --sidebar-primary-foreground: 30 15% 98%;
-    --sidebar-accent: 30 15% 94%;
-    --sidebar-accent-foreground: 20 25% 20%;
-    --sidebar-border: 30 15% 88%;
-    --sidebar-ring: 345 70% 28%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 20 20% 7%;
-    --foreground: 30 15% 92%;
-    --card: 20 18% 10%;
-    --card-foreground: 30 15% 92%;
-    --popover: 20 18% 9%;
-    --popover-foreground: 30 15% 92%;
-    --primary: 345 65% 35%;
-    --primary-foreground: 30 15% 95%;
-    --secondary: 30 15% 18%;
-    --secondary-foreground: 30 15% 85%;
-    --muted: 20 12% 18%;
-    --muted-foreground: 30 10% 55%;
-    --accent: 38 55% 50%;
-    --accent-foreground: 20 20% 10%;
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 30 15% 95%;
-    --border: 20 12% 20%;
-    --input: 20 12% 20%;
-    --ring: 345 65% 35%;
-    --sidebar-background: 20 18% 9%;
-    --sidebar-foreground: 30 15% 88%;
-    --sidebar-primary: 345 65% 35%;
-    --sidebar-primary-foreground: 30 15% 95%;
-    --sidebar-accent: 20 12% 16%;
-    --sidebar-accent-foreground: 30 15% 88%;
-    --sidebar-border: 20 12% 18%;
-    --sidebar-ring: 345 65% 35%;
+    --background: 20 10% 8%;
+    --foreground: 40 20% 94%;
+    --card: 20 10% 12%;
+    --card-foreground: 40 20% 94%;
+    --popover: 20 10% 10%;
+    --popover-foreground: 40 20% 94%;
+    --primary: 345 60% 35%;
+    --primary-foreground: 40 20% 94%;
+    --secondary: 40 40% 70%;
+    --secondary-foreground: 20 10% 8%;
+    --muted: 20 10% 18%;
+    --muted-foreground: 40 10% 60%;
+    --accent: 40 50% 55%;
+    --accent-foreground: 20 10% 8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 20 10% 20%;
+    --input: 20 10% 20%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -151,10 +139,6 @@
     background: var(--gradient-card);
   }
 
-  .gradient-cellar {
-    background: var(--gradient-cellar);
-  }
-
   .text-gradient-gold {
     background: var(--gradient-gold);
     -webkit-background-clip: text;
@@ -175,10 +159,6 @@
 
   .glow-gold {
     box-shadow: var(--shadow-gold);
-  }
-
-  .glow-cellar {
-    box-shadow: var(--shadow-cellar);
   }
 
   .shadow-card {
@@ -226,18 +206,14 @@
 
   .tech-grid {
     background-image: 
-      linear-gradient(hsl(var(--border) / 0.4) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--border) / 0.4) 1px, transparent 1px);
+      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
   .tech-dots {
     background-image: radial-gradient(hsl(var(--primary) / 0.15) 1px, transparent 1px);
     background-size: 20px 20px;
-  }
-
-  .cellar-vignette {
-    background: radial-gradient(ellipse at center, transparent 0%, hsl(345 50% 15% / 0.08) 100%);
   }
 }
 
